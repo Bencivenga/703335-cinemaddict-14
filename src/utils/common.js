@@ -1,21 +1,5 @@
 import dayjs from 'dayjs';
 
-export const RenderPosition = {
-  AFTERBEGIN: 'afterbegin',
-  BEFOREEND: 'beforeend',
-};
-
-export const render = (container, element, place = RenderPosition.BEFOREEND) => {
-  switch (place) {
-    case RenderPosition.AFTERBEGIN:
-      container.prepend(element);
-      break;
-    case RenderPosition.BEFOREEND:
-      container.append(element);
-      break;
-  }
-};
-
 export const createElement = (template) => {
   const newElement = document.createElement('div');
   newElement.innerHTML = template;
@@ -45,7 +29,7 @@ export const shuffleArray = (array) => {
   }
 };
 
-export const getRandomArraySize = (min, max, array,) => {
+export const getRandomArraySize = (min, max, array) => {
   const randomArray = new Array(getRandomInteger(min, max)).fill().map(() => getRandomArrayElement(array));
   return getUniqueValues(randomArray);
 };
@@ -59,11 +43,7 @@ export const getRandomFloat = (a = 1, b = 0) => {
 };
 
 export const getTruncatedText = (text) => {
-  if (text.length > 140) {
-    return `${text.substring(0, 139)}...`
-  }
-
-  return text;
+  return text.length > 140 ? `${text.substring(0, 139)}...` : text;
 };
 
 export const getRandomDate = (start, end, format = 'YYYY/MM/DD HH:mm') => {
@@ -90,26 +70,3 @@ export const getUniqId = function () {
 export const capitalizeFirstChar = (str) => {
   return str.charAt(0).toUpperCase() + str.slice(1);
 };
-
-export const sortFilmsByRating = (films) => {
-  return films.slice().sort((a, b) => a.audienceScore > b.audienceScore ? -1 : 1);
-};
-
-export const sortFilmsByComments = (films, comments) => {
-  return films.slice().sort((a, b) => a.comments.size > b.comments.size ? -1 : 1);
-};
-
-export const removeDuplTitles = (films) => {
-  const unduplicatedTitles = [films[0].title];
-
-  for (let i = 0; i < films.length - 1; i++) {
-    const current = films[i].title;
-    const next = films[i + 1].title;
-
-    if (next !== current) {
-      unduplicatedTitles.push(next);
-    }
-  }
-  return unduplicatedTitles;
-};
-

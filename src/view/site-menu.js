@@ -1,4 +1,5 @@
-import {capitalizeFirstChar, createElement} from '../utils/common';
+import AbstractView from './abstract';
+import {capitalizeFirstChar} from '../utils/common';
 
 const createFilterItemTemplate = (filter) => {
   const {name, count} = filter;
@@ -16,25 +17,13 @@ const createSiteMenuTemplate = (filterItems) => {
   </nav>`;
 };
 
-export default class SiteMenu {
+export default class SiteMenu extends AbstractView {
   constructor(filterItems) {
-    this._element = null;
+    super();
     this._filterItems = filterItems;
   }
 
   getTemplate() {
     return createSiteMenuTemplate(this._filterItems);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

@@ -1,7 +1,7 @@
+import AbstractView from './abstract';
 import {createCommentTemplate} from '../utils/comment';
 import {createEmojisList} from '../utils/emoji';
-import {createElement} from '../utils/common';
-import { getUniqueValues } from '../utils/common';
+import {checkGenresLength} from '../utils/film';
 
 const createFilmCardPopupTemplate = (film = {}, commentItems) => {
   const {
@@ -16,8 +16,8 @@ const createFilmCardPopupTemplate = (film = {}, commentItems) => {
       'Richard Weil',
     ],
     actors = [
-      'Robert De Niro',
       'Jack Nicholson',
+      'Robert De Niro',
       'Marlon Brando',
     ],
     rating = 'NC-17',
@@ -37,22 +37,17 @@ const createFilmCardPopupTemplate = (film = {}, commentItems) => {
   } = film;
 
   console.log(comments);
+  console.log(commentItems);
   const watchListClassName = isInWatchList ? 'film-card__controls-item--active' : '';
   const watchedClassName = isWatched ? 'film-card__controls-item--active' : '';
   const favoriteClassName = isFavorite ? 'film-card__controls-item--active' : '';
   const filmComments = comments ? commentItems.filter((comment) => comments.has(comment.id)) : null;
   console.log(filmComments);
-  const uniqueComments = filmComments.filter((item, index, arr) =>
-    index === arr.findIndex((i) => i.comment === item.comment)
-  );
+  const uniqueComments = comments ?  filmComments.filter((item, index, arr) =>
+    index === arr.findIndex((i) => i.comment === item.comment)) : null;
 
   console.log(uniqueComments);
 
-//   const res = things.thing = things.thing.filter((thing, index, self) =>
-//   index === self.findIndex((t) => (
-//     t.place === thing.place && t.name === thing.name
-//   ))
-// );
 
   const commentsCount = comments ? uniqueComments.length : 0;
   const commentsTemplate = createCommentTemplate(uniqueComments);
@@ -109,7 +104,7 @@ const createFilmCardPopupTemplate = (film = {}, commentItems) => {
               <td class="film-details__cell">${country}</td>
             </tr>
             <tr class="film-details__row">
-              <td class="film-details__term">Genres</td>
+              <td class="film-details__term">${checkGenresLength(genres)}</td>
               <td class="film-details__cell">
                 <span class="film-details__genre">${genres.join('</span><span class="film-details__genre">')}</span>
             </tr>
@@ -158,26 +153,24 @@ const createFilmCardPopupTemplate = (film = {}, commentItems) => {
 </section>`;
 };
 
-export default class FilmCardPopup {
+export default class FilmCardPopup extends AbstractView {
   constructor(film, comments) {
-    this._element = null;
+    super();
     this._film = film;
     this._commments = comments;
+    this._popupCloseButtonClickHandler = this._popupCloseButtonClickHandler.bind(this);
   }
 
   getTemplate() {
     return createFilmCardPopupTemplate(this._film, this._commments);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
+  _popupCloseButtonClickHandler() {
+    this._callback.popupCloseButtonClick();
   }
 
-  removeElement() {
-    this._element = null;
+  setPopupCloseButtonClickHandler(callback) {
+    this._callback.popupCloseButtonClick = callback;
+    this.getElement().querySelector('.film-details__close-btn').addEventListener('click', this._popupCloseButtonClickHandler);
   }
 }

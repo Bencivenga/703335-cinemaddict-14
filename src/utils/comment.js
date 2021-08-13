@@ -1,4 +1,3 @@
-import { getUniqueValues } from "./common";
 
 export const sortCommentsByDate = (comments) => {
   return comments.sort((a, b) => a.date < b.date ? -1 : 1);
