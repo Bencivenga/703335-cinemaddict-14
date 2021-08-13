@@ -1,4 +1,5 @@
-import {formatDateToYearOnly, getTruncatedText, createElement} from '../utils/common';
+import AbstractView from './abstract';
+import {formatDateToYearOnly, getTruncatedText} from '../utils/common';
 import {commentCountTemplate} from '../utils/comment';
 
 const createFilmCardTemplate = (film) => {
@@ -7,7 +8,6 @@ const createFilmCardTemplate = (film) => {
   const watchedClassName = isWatched ? 'film-card__controls-item--active' : '';
   const favoriteClassName = isFavorite ? 'film-card__controls-item--active' : '';
   const areComments = comments === null || comments.size === 0 ? '' : commentCountTemplate(comments);
-  console.log(areComments);
 
   return `<article class="film-card">
           <h3 class="film-card__title">${title}</h3>
@@ -28,25 +28,27 @@ const createFilmCardTemplate = (film) => {
         </article>`;
 };
 
-export default class FilmCard {
+export default class FilmCard extends AbstractView {
   constructor(film) {
+    super();
     this._film = film;
-    this._element = null;
+    this._filmCardClickHandler = this._filmCardClickHandler.bind(this);
   }
 
   getTemplate() {
     return createFilmCardTemplate(this._film);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
+  _filmCardClickHandler(evt) {
+    if (evt.target === this.getElement().querySelector('.film-card__title') ||
+        evt.target === this.getElement().querySelector('.film-card__poster') ||
+        evt.target === this.getElement().querySelector('.film-card__comments')) {
+      this._callback.filmCardClick();
     }
-
-    return this._element;
   }
 
-  removeElement() {
-    this._element = null;
+  setFilmCardClickHandler(callback) {
+    this._callback.filmCardClick = callback;
+    this.getElement().addEventListener('click', this._filmCardClickHandler);
   }
 }
