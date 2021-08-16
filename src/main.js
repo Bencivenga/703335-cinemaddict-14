@@ -22,9 +22,9 @@ const FILM_CARDS_COUNT = 22;
 const EXTRA_FILM_CARDS_COUNT = 2;
 
 const comments = generateCommentsList();
-// console.log(comments);
+console.log(comments);
 const films = generateFilms(FILM_CARDS_COUNT, comments);
-// console.log(films);
+console.log(films);
 const filters = generateFilter(films);
 const footerStats = generateFooterStats(films);
 

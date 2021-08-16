@@ -43,14 +43,9 @@ const createFilmCardPopupTemplate = (film = {}, commentItems) => {
   const favoriteClassName = isFavorite ? 'film-card__controls-item--active' : '';
   const filmComments = comments ? commentItems.filter((comment) => comments.has(comment.id)) : null;
   console.log(filmComments);
-  const uniqueComments = comments ?  filmComments.filter((item, index, arr) =>
-    index === arr.findIndex((i) => i.comment === item.comment)) : null;
 
-  console.log(uniqueComments);
-
-
-  const commentsCount = comments ? uniqueComments.length : 0;
-  const commentsTemplate = createCommentTemplate(uniqueComments);
+  const commentsCount = comments ? filmComments.length : 0;
+  const commentsTemplate = createCommentTemplate(filmComments);
   const emojisElement = createEmojisList();
 
   return `<section class="film-details">

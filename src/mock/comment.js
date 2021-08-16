@@ -14,5 +14,6 @@ const generateComment = (id) => {
 };
 
 export const generateCommentsList = () => {
-  return new Array(COMMENTS_COUNT).fill().map(() => generateComment(getUniqId()));
+  const comments = new Array(COMMENTS_COUNT).fill().map(() => generateComment(getUniqId()));
+  return comments.filter((item, index, arr) => index === arr.findIndex((i) => i.comment === item.comment));
 };
