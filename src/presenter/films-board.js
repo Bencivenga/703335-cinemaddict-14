@@ -2,10 +2,11 @@ import FilmsSectionView from '../view/films-section';
 import FilmsContainerView from '../view/films-container';
 import SortView from '../view/sort';
 import NoFilmView from '../view/no-film';
-import FilmCardView from '../view/film-card';
+// import FilmCardView from '../view/film-card';
 import TopRatedFilmsView from '../view/top-rated';
 import MostCommentedFilmsView from '../view/most-commented';
-import FilmCardPopupView from '../view/film-card-popup';
+// import FilmCardPopupView from '../view/film-card-popup';
+import FilmPresenter from './film';
 import ShowMoreButtonView from '../view/show-more-button';
 import {render, remove} from '../utils/render';
 import {sortFilmsByComments, sortFilmsByRating} from '../utils/film';
@@ -41,62 +42,8 @@ export default class filmsBoard {
   }
 
   _renderFilm(container, film) {
-    const filmCard = new FilmCardView(film);
-
-    const onFilmCardItemsClick = () => {
-
-      const popupElement = document.querySelector('.film-details');
-
-      if (!popupElement) {
-        this._bodyContainer.classList.add('hide-overflow');
-        this._renderFilmPopup(film, this._commments);
-      }
-    };
-
-    filmCard.setFilmCardClickHandler(() => {
-      onFilmCardItemsClick();
-    });
-
-    render(container, filmCard);
-  }
-
-  _renderFilmPopup(film, comments) {
-    const filmPopup = new FilmCardPopupView(film, comments);
-
-    const filmPopupCloseHandler = () => {
-      this._bodyContainer.classList.remove('hide-overflow');
-      remove(filmPopup);
-      document.removeEventListener('keydown', onEscKeyDown);
-      document.removeEventListener('click', onSpareSpaceClick);
-    };
-
-    filmPopup.setPopupCloseButtonClickHandler(() => {
-      filmPopupCloseHandler();
-    });
-
-    const onEscKeyDown = (evt) => {
-      if (evt.key === 'Escape' || evt.key === 'Esc') {
-        evt.preventDefault();
-        filmPopupCloseHandler();
-      }
-    };
-
-    const onSpareSpaceClick = (evt) => {
-      const {target} = evt;
-      const popupTarget = target.closest('.film-details');
-      const cardTarget = target.closest('.film-card');
-
-      if (!popupTarget && !cardTarget) {
-        filmPopupCloseHandler();
-      }
-    };
-
-    render(this._bodyContainer, filmPopup);
-    document.addEventListener('keydown', onEscKeyDown);
-
-    if (document.querySelector('.film-details')) {
-      document.addEventListener('click', onSpareSpaceClick);
-    }
+    const filmPresenter = new FilmPresenter(container, this._bodyContainer);
+    filmPresenter.init(film, this._commments);
   }
 
   _renderFilms(from, to, container, films) {
