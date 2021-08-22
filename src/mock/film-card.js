@@ -1,3 +1,5 @@
+import {nanoid} from 'nanoid';
+
 import {
   getRandomArrayElement,
   getRandomInteger,
@@ -54,6 +56,7 @@ const generateFilmCard = (comments) => {
   const originalTitle = title;
 
   return {
+    id: nanoid(),
     title,
     originalTitle,
     poster: getRandomArrayElement(POSTERS),
