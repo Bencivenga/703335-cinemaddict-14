@@ -21,7 +21,7 @@ export const FILM_TITLES = [
   'Kimi no na wa',
 ];
 
- export const POSTERS = [
+export const POSTERS = [
   'made-for-each-other.png',
   'popeye-meets-sinbad.png',
   'sagebrush-trail.jpg',
@@ -72,29 +72,29 @@ export const DIRECTORS = [
   'Charles Dickens',
 ];
 
- export const ACTORS = [
-   'Robert De Niro',
-   'Jack Nicholson',
-   'Marlon Brando',
-   'Denzel Washington',
-   'Katharine Hepburn',
-   'Meryl Streep',
-   'Daniel Day-Lewis',
-   'Sidney Poitier',
-   'Clark Gable',
-   'Ingrid Bergman',
- ];
+export const ACTORS = [
+  'Robert De Niro',
+  'Jack Nicholson',
+  'Marlon Brando',
+  'Denzel Washington',
+  'Katharine Hepburn',
+  'Meryl Streep',
+  'Daniel Day-Lewis',
+  'Sidney Poitier',
+  'Clark Gable',
+  'Ingrid Bergman',
+];
 
- export const GENRES = [
-   'Drama',
-   'Film-Noir',
-   'Mystery',
-   'Musical',
-   'Western',
-   'Drama',
-   'Comedy',
-   'Cartoon',
- ];
+export const GENRES = [
+  'Drama',
+  'Film-Noir',
+  'Mystery',
+  'Musical',
+  'Western',
+  'Drama',
+  'Comedy',
+  'Cartoon',
+];
 
 export const FILM_RATINGS = [
   'G',

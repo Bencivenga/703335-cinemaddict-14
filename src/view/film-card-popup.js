@@ -38,19 +38,14 @@ const createFilmCardPopupTemplate = (film = {}, commentItems) => {
 
   console.log(comments);
   console.log(commentItems);
-  const watchListClassName = isInWatchList ? 'film-card__controls-item--active' : '';
-  const watchedClassName = isWatched ? 'film-card__controls-item--active' : '';
-  const favoriteClassName = isFavorite ? 'film-card__controls-item--active' : '';
-  const filmComments = comments ? commentItems.filter((comment) => comments.has(comment.id)) : null;
+  const watchListStatus = isInWatchList ? 'checked' : '';
+  const watchedStatus = isWatched ? 'checked' : '';
+  const favoriteStatus = isFavorite ? 'checked' : '';
+  const filmComments = comments && commentItems ? commentItems.filter((comment) => comments.has(comment.id)) : null;
   console.log(filmComments);
-  const uniqueComments = comments ?  filmComments.filter((item, index, arr) =>
-    index === arr.findIndex((i) => i.comment === item.comment)) : null;
 
-  console.log(uniqueComments);
-
-
-  const commentsCount = comments ? uniqueComments.length : 0;
-  const commentsTemplate = createCommentTemplate(uniqueComments);
+  const commentsCount = comments && filmComments ? filmComments.length : 0;
+  const commentsTemplate = createCommentTemplate(filmComments);
   const emojisElement = createEmojisList();
 
   return `<section class="film-details">
@@ -117,13 +112,13 @@ const createFilmCardPopupTemplate = (film = {}, commentItems) => {
       </div>
 
       <section class="film-details__controls">
-        <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist" ${isInWatchList ? watchListClassName : ''}>
+        <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist" ${watchListStatus}>
         <label for="watchlist" class="film-details__control-label film-details__control-label--watchlist">Add to watchlist</label>
 
-        <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched" ${isWatched ? watchedClassName : ''}>
+        <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched" ${watchedStatus}>
         <label for="watched" class="film-details__control-label film-details__control-label--watched">Already watched</label>
 
-        <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite" ${isFavorite ? favoriteClassName : ''}>
+        <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite" ${favoriteStatus}>
         <label for="favorite" class="film-details__control-label film-details__control-label--favorite">Add to favorites</label>
       </section>
     </div>
@@ -159,6 +154,9 @@ export default class FilmCardPopup extends AbstractView {
     this._film = film;
     this._commments = comments;
     this._popupCloseButtonClickHandler = this._popupCloseButtonClickHandler.bind(this);
+    this._watchListClickHandler = this._watchListClickHandler.bind(this);
+    this._watchedClickHandler = this._watchedClickHandler.bind(this);
+    this._favoriteClickHandler = this._favoriteClickHandler.bind(this);
   }
 
   getTemplate() {
@@ -166,11 +164,41 @@ export default class FilmCardPopup extends AbstractView {
   }
 
   _popupCloseButtonClickHandler() {
-    this._callback.popupCloseButtonClick();
+    this._callback.popupCloseButtonClick(this._film, this._commments);
+  }
+
+  _watchListClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.watchListClick();
+  }
+
+  _watchedClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.watchedClick();
+  }
+
+  _favoriteClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.favoriteClick();
   }
 
   setPopupCloseButtonClickHandler(callback) {
     this._callback.popupCloseButtonClick = callback;
     this.getElement().querySelector('.film-details__close-btn').addEventListener('click', this._popupCloseButtonClickHandler);
+  }
+
+  setPopupWatchListClickHandler(callback) {
+    this._callback.watchListClick = callback;
+    this.getElement().querySelector('input[name="watchlist"]').addEventListener('change', this._watchListClickHandler);
+  }
+
+  setPopupWatchedClickHandler(callback) {
+    this._callback.watchedClick = callback;
+    this.getElement().querySelector('input[name="watched"]').addEventListener('change', this._watchedClickHandler);
+  }
+
+  setPopupFavoriteClickHandler(callback) {
+    this._callback.favoriteClick = callback;
+    this.getElement().querySelector('input[name="favorite"]').addEventListener('change', this._favoriteClickHandler);
   }
 }

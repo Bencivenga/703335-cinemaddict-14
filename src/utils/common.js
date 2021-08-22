@@ -70,3 +70,17 @@ export const getUniqId = function () {
 export const capitalizeFirstChar = (str) => {
   return str.charAt(0).toUpperCase() + str.slice(1);
 };
+
+export const updateItem = (items, updatedItem) => {
+  const index = items.findIndex((item) => item.id === updatedItem.id);
+
+  if (index !== -1) {
+    return items;
+  }
+
+  return [
+    ...items.slice(0, index),
+    updatedItem,
+    ...items.slice(index + 1),
+  ];
+};
