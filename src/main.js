@@ -27,8 +27,8 @@ render(siteHeaderElement, new HeaderProfileView(films));
 render(siteMainElement, new SiteMenuView(filters), RenderPosition.AFTERBEGIN);
 
 filmsBoardPresenter.init(films, comments);
-filmsBoardPresenter._clearFilmsList();
-filmsBoardPresenter.init(films, comments);
+// filmsBoardPresenter._clearFilmsList();
+// filmsBoardPresenter.init(films, comments);
 
 
 const footerStatsContainerElement = siteFooterElement.querySelector('.footer__statistics');
