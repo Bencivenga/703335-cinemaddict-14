@@ -2,7 +2,7 @@ import FilmCardView from '../view/film-card';
 import FilmCardPopupView from '../view/film-card-popup';
 import {render, remove, replace} from '../utils/render';
 
-const Mode = {
+const PopupMode = {
   ClOSED: 'ClOSED',
   OPENED: 'OPENED',
 };
@@ -15,7 +15,7 @@ export default class Film {
     this._changePopupMode = changePopupMode;
     this._filmComponent = null;
     this._filmPopupComponent = null;
-    this._mode = Mode.ClOSED;
+    this._mode = PopupMode.ClOSED;
 
     this._handleWatchListClick = this._handleWatchListClick.bind(this);
     this._handleWatchedClick = this._handleWatchedClick.bind(this);
@@ -57,7 +57,7 @@ export default class Film {
   }
 
   resetView() {
-    if (this._mode !== Mode.ClOSED) {
+    if (this._mode !== PopupMode.ClOSED) {
       this._removeFilmPopup();
     }
   }
@@ -69,7 +69,7 @@ export default class Film {
     this._filmPopupComponent.setPopupWatchedClickHandler(this._handleWatchedClick);
     this._filmPopupComponent.setPopupFavoriteClickHandler(this._handleFavoriteClick);
     this._changePopupMode();
-    this._mode = Mode.OPENED;
+    this._mode = PopupMode.OPENED;
 
     render(this._bodyContainer, this._filmPopupComponent);
     document.addEventListener('keydown', this._onEscKeyDownHandler);
@@ -125,14 +125,14 @@ export default class Film {
     remove(this._filmPopupComponent);
     document.removeEventListener('keydown', this._onEscKeyDownHandler);
     document.removeEventListener('click', this._onSpareSpaceClickHandler);
-    this._mode = Mode.ClOSED;
+    this._mode = PopupMode.ClOSED;
   }
 
   _onEscKeyDownHandler(evt) {
     if (evt.key === 'Escape' || evt.key === 'Esc') {
       evt.preventDefault();
       this._removeFilmPopup();
-      this._mode = Mode.ClOSED;
+      this._mode = PopupMode.ClOSED;
     }
   }
 
@@ -143,7 +143,7 @@ export default class Film {
 
     if (!popupTarget && !cardTarget) {
       this._removeFilmPopup();
-      this._mode === Mode.ClOSED;
+      this._mode = PopupMode.ClOSED;
     }
   }
 }

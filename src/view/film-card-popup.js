@@ -41,10 +41,10 @@ const createFilmCardPopupTemplate = (film = {}, commentItems) => {
   const watchListStatus = isInWatchList ? 'checked' : '';
   const watchedStatus = isWatched ? 'checked' : '';
   const favoriteStatus = isFavorite ? 'checked' : '';
-  const filmComments = comments && commentItems ? commentItems.filter((comment) => comments.has(comment.id)) : null;
+  const filmComments = comments ? commentItems.filter((comment) => comments.has(comment.id)) : null;
   console.log(filmComments);
 
-  const commentsCount = comments && filmComments ? filmComments.length : 0;
+  const commentsCount = comments ? filmComments.length : 0;
   const commentsTemplate = createCommentTemplate(filmComments);
   const emojisElement = createEmojisList();
 
@@ -169,17 +169,17 @@ export default class FilmCardPopup extends AbstractView {
 
   _watchListClickHandler(evt) {
     evt.preventDefault();
-    this._callback.watchListClick();
+    this._callback.watchListClick(this._film, this._commments);
   }
 
   _watchedClickHandler(evt) {
     evt.preventDefault();
-    this._callback.watchedClick();
+    this._callback.watchedClick(this._film, this._commments);
   }
 
   _favoriteClickHandler(evt) {
     evt.preventDefault();
-    this._callback.favoriteClick();
+    this._callback.favoriteClick(this._film, this._commments);
   }
 
   setPopupCloseButtonClickHandler(callback) {

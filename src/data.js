@@ -167,3 +167,13 @@ export const EMOJIS = [
   'angry',
 ];
 
+export const SortType = {
+  DEFAULT: 'default',
+  DATE: 'date',
+  RATING: 'rating',
+};
+
+export const ExtraFilmsTitles = {
+  TOP_RATED: 'Top rated',
+  MOST_COMMENTED: 'Most commented',
+};
